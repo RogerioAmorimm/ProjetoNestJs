@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app.module';
+import { appConfig } from './commons/api/app-config';
+import { AppModule } from './commons/modules/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  appConfig(app);
   const config = new DocumentBuilder()
     .setTitle('Contatos com NestJs')
     .setDescription('Api nestjs para hiper dev')
