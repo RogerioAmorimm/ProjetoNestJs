@@ -1,17 +1,20 @@
 import { Body, Controller, Put } from '@nestjs/common';
-import { ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiBody } from '@nestjs/swagger';
+import { ApiController } from 'src/commons/api/api.controller';
 import { RefreshTokenDto } from './dto/refresh.token.dto';
 import { TokenService } from './token.service';
 
 @Controller('token')
-export class TokenController {
-  constructor(private tokenService: TokenService) {}
+export class TokenController extends ApiController {
+  constructor(private tokenService: TokenService) {
+    super();
+  }
 
-  @ApiCreatedResponse({
+  @ApiBody({
     type: RefreshTokenDto,
   })
   @Put('refresh')
   async refreshToken(@Body() data: RefreshTokenDto) {
-    return this.tokenService.refreshToken(data.oldToken);
+    return this.response(this.tokenService.refreshToken(data.oldToken));
   }
 }
