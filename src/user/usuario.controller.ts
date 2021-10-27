@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Post,
-  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -45,8 +44,8 @@ export class UsuarioController extends ApiController {
   })
   @Post('login')
   @UseGuards(AuthGuard('local'))
-  async login(@Body() dto: LoginDto) {
-    return this.response(this.authService.login(dto));
+  async login(@Body() dto: LoginDto): Promise<CustomResponse<Usuario>> {
+    return this.response(await this.authService.login(dto));
   }
 
   @Post('login-token')

@@ -11,7 +11,7 @@ import { TokenService } from './token.service';
   imports: [
     MongooseModule.forFeature([{ name: Token.name, schema: tokenSchema }]),
     forwardRef(() => AuthModule),
-    UsuarioModule,
+    forwardRef(() => UsuarioModule),
   ],
   controllers: [TokenController],
   providers: [TokenService],

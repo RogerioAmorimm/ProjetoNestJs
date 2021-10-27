@@ -23,13 +23,13 @@ export class AuthService {
     return null;
   }
 
-  async login(user: LoginDto) {
+  async login(user: LoginDto): Promise<Usuario> {
     const payload = { username: user.username, sub: user.password };
     const token = this.jwtService.sign(payload);
     this.tokenService.save(token, user.username);
-    return {
-      access_token: token,
-    };
+    const usuarioLogado = await this.usuarioService.getByEmail(user.username);
+    usuarioLogado.token = token;
+    return usuarioLogado;
   }
 
   async loginToken(token: string) {

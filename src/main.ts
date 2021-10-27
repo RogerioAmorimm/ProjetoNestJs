@@ -4,7 +4,7 @@ import { appConfig } from './commons/api/app-config';
 import { AppModule } from './commons/modules/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   appConfig(app);
   const config = new DocumentBuilder()
     .setTitle('Contatos com NestJs')

@@ -1,6 +1,8 @@
 import { forwardRef, Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from 'src/auth/auth.module';
+import { TokenModule } from 'src/token/token.module';
 import { Usuario } from './models/usuario.model';
 import { UsuarioSchema } from './models/usuario.schema';
 import { UsuarioController } from './usuario.controller';
@@ -10,6 +12,7 @@ import { UsuarioService } from './usuario.service';
   imports: [
     MongooseModule.forFeature([{ name: Usuario.name, schema: UsuarioSchema }]),
     forwardRef(() => AuthModule),
+    forwardRef(() => TokenModule),
   ],
   controllers: [UsuarioController],
   providers: [UsuarioService],

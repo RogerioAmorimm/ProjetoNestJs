@@ -1,9 +1,9 @@
 export class CustomResponse<T> {
-  public success: boolean;
+  public sucesso: boolean;
   public errors: string[];
   public data: T;
   constructor(success: boolean, errors: string[], data: T) {
-    this.success = success;
+    this.sucesso = success;
     this.errors = errors;
     this.data = data;
   }

@@ -16,6 +16,7 @@ import { Token } from './model/token.model';
 export class TokenService {
   constructor(
     @InjectModel(Token.name) private readonly tokenContext: Model<Token>,
+    @Inject(forwardRef(() => UsuarioService))
     private usuarioService: UsuarioService,
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
@@ -34,14 +35,15 @@ export class TokenService {
     }
   }
 
-  async refreshToken(oldToken: string) {
+  async refreshToken(oldToken: string): Promise<Token | HttpException> {
     const objToken = await this.tokenContext.findOne({ hash: oldToken }).exec();
     if (objToken) {
-      const usuario = await this.usuarioService.getByEmail(objToken.email);
-      return this.authService.login({
+      let usuario = await this.usuarioService.getByEmail(objToken.email);
+      usuario = await this.authService.login({
         username: usuario.email,
         password: usuario.password,
       });
+      return await this.tokenContext.findOne({ hash: usuario.token }).exec();
     } else {
       //é uma requisição inválida
       return new HttpException(
