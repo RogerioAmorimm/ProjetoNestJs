@@ -10,7 +10,7 @@ async function bootstrap() {
     .setTitle('Contatos com NestJs')
     .setDescription('Api nestjs para hiper dev')
     .setVersion('1.0')
-    .addTag('hiper-dev')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

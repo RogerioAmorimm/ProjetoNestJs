@@ -1,3 +1,3 @@
 export const jwtConstants = {
-  secret: 'minha-api-e-segura-top',
+  secret: 'hiper-dev-nestjs',
 };

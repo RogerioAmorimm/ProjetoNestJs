@@ -8,8 +8,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiCreatedResponse } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { LoginDto } from './dto/login.dto';
 // import { ResultadoDto } from 'src/dto/resultado.dto';
 // import { TokenService } from 'src/token/token.service';
 import { UsuarioCadastrarDto } from './dto/usuario.cadastrar.dto';
@@ -26,22 +28,27 @@ export class UsuarioController {
   @UseGuards(JwtAuthGuard)
   @Get('listar')
   async listar(): Promise<Usuario[]> {
-    return this.usuarioService.listar();
+    return await this.usuarioService.listar();
   }
-
+  @ApiCreatedResponse({
+    type: UsuarioCadastrarDto,
+  })
   @Post('cadastrar')
   async cadastrar(@Body() data: UsuarioCadastrarDto): Promise<void> {
     return this.usuarioService.cadastrar(data);
   }
 
-  @UseGuards(AuthGuard('local'))
+  @ApiCreatedResponse({
+    type: LoginDto,
+  })
   @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  @UseGuards(AuthGuard('local'))
+  async login(@Body() dto: LoginDto) {
+    return this.authService.login(dto);
   }
 
-  // @Post('login-token')
-  // async loginToken(@Request() req, @Body() data) {
-  //   return this.authService.loginToken(data.token);
-  // }
+  @Post('login-token')
+  async loginToken(@Request() req, @Body() data) {
+    return this.authService.loginToken(data.token);
+  }
 }

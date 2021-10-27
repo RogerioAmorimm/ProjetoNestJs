@@ -1,7 +1,10 @@
-export interface UsuarioCadastrarDto {
+import { ApiProperty } from '@nestjs/swagger';
+
+export class UsuarioCadastrarDto {
+  @ApiProperty()
   nome: string;
+  @ApiProperty()
   email: string;
+  @ApiProperty()
   senha: string;
-  telefone: string;
-  cpf: string;
 }

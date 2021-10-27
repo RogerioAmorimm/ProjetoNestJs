@@ -16,27 +16,11 @@ export class UsuarioService {
   }
 
   async cadastrar(data: UsuarioCadastrarDto) {
-    const usuario = new Usuario();
+    const usuario = new this.usuarioContext();
     usuario.email = data.email;
     usuario.nome = data.nome;
     usuario.password = bcrypt.hashSync(data.senha, 8);
-
-    this.usuarioContext.create(usuario);
-
-    // return this.usuarioRepository
-    //   .save(usuario)
-    //   .then((result) => {
-    //     return <ResultadoDto>{
-    //       status: true,
-    //       mensagem: 'Usuário cadastrado com sucesso',
-    //     };
-    //   })
-    //   .catch((error) => {
-    //     return <ResultadoDto>{
-    //       status: false,
-    //       mensagem: 'Houve um errro ao cadastrar o usuário',
-    //     };
-    //   });
+    await usuario.save();
   }
 
   async getByEmail(email: string): Promise<Usuario | undefined> {
