@@ -25,13 +25,14 @@ export class TokenService {
   async save(hash: string, email: string) {
     const objToken = await this.tokenContext.findOne({ email: email }).exec();
     if (objToken) {
-      this.tokenContext.updateOne({ _id: objToken.id }, objToken).exec();
+      objToken.hash = hash;
+      await this.tokenContext.updateOne({ _id: objToken._id }, objToken).exec();
     } else {
-      const newToken = new this.tokenContext({
+      const novoToken = new this.tokenContext({
         hash: hash,
         email: email,
       });
-      await newToken.save();
+      await novoToken.save();
     }
   }
 

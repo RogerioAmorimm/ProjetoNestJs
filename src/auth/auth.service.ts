@@ -24,11 +24,12 @@ export class AuthService {
   }
 
   async login(user: LoginDto): Promise<Usuario> {
+    const usuarioLogado = await this.usuarioService.getByEmail(user.username);
     const payload = { username: user.username, sub: user.password };
     const token = this.jwtService.sign(payload);
-    this.tokenService.save(token, user.username);
-    const usuarioLogado = await this.usuarioService.getByEmail(user.username);
+    await this.tokenService.save(token, user.username);
     usuarioLogado.token = token;
+    await this.usuarioService.atualizarLogin(usuarioLogado);
     return usuarioLogado;
   }
 

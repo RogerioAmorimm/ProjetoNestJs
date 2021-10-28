@@ -36,4 +36,7 @@ export class UsuarioService {
   async getByEmail(email: string): Promise<Usuario | undefined> {
     return this.usuarioContext.findOne({ email: email }).exec();
   }
+  async atualizarLogin(usuario: Usuario) {
+    await this.usuarioContext.updateOne({ _id: usuario._id }, usuario);
+  }
 }
